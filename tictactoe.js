@@ -22,7 +22,10 @@ class Player{
 	constructor(name, tile){
 		this.name = name;
 		this.tile = tile;
+<<<<<<< HEAD
 		this.movements = 0;
+=======
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 }
 
@@ -30,19 +33,35 @@ class Game{ //modelo
 	constructor(){
 		this.name = "Tres en raya";
 		this.board = [[0,0,0],[0,0,0],[0,0,0]];
+<<<<<<< HEAD
 		this.jugador1 = new Player("Raquel", "x");
 		this.jugador2 = new Player("Máquina","o");
+=======
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 		
 	}
 
 	movement(row,column,player){
+<<<<<<< HEAD
 			his.board[row][column]= player;
+=======
+		if (squareAvailable(row,column)){
+			this.board[row][column]= player;
+		}
+		else {
+			alert("Esa casilla ya está ocupada. Elige otra casilla")
+		}
+		
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 
 	squareAvailable(row,column){
 		if(this.board[row,column]==0){return true}
 		else {return false}
+<<<<<<< HEAD
 		// The same that return this.board[row,column]==0
+=======
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 	
 	checkIfWinner(player){
@@ -75,14 +94,24 @@ how to access to each square:
 
 class View{
 	constructor(){
+<<<<<<< HEAD
 		this.drawTable();
+=======
+
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 
 	drawTable(){
 		var textTable = '<table id="t" border = "0" cellspacing ="5"> ';
+<<<<<<< HEAD
 		for(let i=0;i<3;i++){
 			textTable += '<tr bgcolor = "#e0893c" height="100px">';
 			for (let j=0;j<3;j++){
+=======
+		for(i=0;i<3;i++){
+			textTable += '<tr bgcolor = "#e0893c" height="100px">';
+			for (j=0;j<3;j++){
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 				textTable += '<td id="'+i+j+'"width="100"></td>';
 			}
 		}
@@ -90,6 +119,7 @@ class View{
 		//return textTable
 		document.getElementById("table").innerHTML = textTable;
 	}
+<<<<<<< HEAD
 	getSquare(row,column){
 		return document.getElementById(row.toString()+column.toString());
 	}
@@ -97,10 +127,13 @@ class View{
 		alert(message);
 	}
 
+=======
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 } //view
 
 class Controller{
 	constructor(){
+<<<<<<< HEAD
 		this.model = new Game();
 		this.view = new View();
 		this.generateListeners();
@@ -136,3 +169,26 @@ window.onload = function(){
 
 	
 }
+=======
+		this.view = new View();
+		this.model = new Game();
+	}
+} //controller
+
+
+function drawTable(){ //test
+	var textTable = '<table id="t" border = "0" cellspacing ="5"> ';
+	for(i=0;i<3;i++){
+		textTable += '<tr bgcolor = "#e0893c" height="100px">';
+	for (j=0;j<3;j++){
+		textTable += '<td id="'+i+j+'"width="100"></td>';
+	}
+	}
+	textTable += '</tr></table>';
+	//return textTable
+	document.getElementById("table").innerHTML = textTable;
+}
+
+
+window.onload = drawTable;
+>>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
