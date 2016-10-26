@@ -19,51 +19,55 @@ antes las tres en l nea.
 */
 
 class Player{
-	constructor(name, tile){
+	constructor(tile){
 		this.name = name;
 		this.tile = tile;
-<<<<<<< HEAD
 		this.movements = 0;
-=======
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 }
 
-class Game{ //modelo
+class Model{ //modelo
 	constructor(){
 		this.name = "Tres en raya";
 		this.board = [[0,0,0],[0,0,0],[0,0,0]];
-<<<<<<< HEAD
-		this.jugador1 = new Player("Raquel", "x");
-		this.jugador2 = new Player("Máquina","o");
-=======
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
+		//this.jugador1 = new Player("x");
+		//this.jugador2 = new Player("o");
+		this.players =[new Player("x"), new Player("o")];
+		this.turn = this.generateTurns();
 		
 	}
 
 	movement(row,column,player){
-<<<<<<< HEAD
 			his.board[row][column]= player;
-=======
-		if (squareAvailable(row,column)){
-			this.board[row][column]= player;
-		}
-		else {
-			alert("Esa casilla ya está ocupada. Elige otra casilla")
-		}
-		
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 
 	squareAvailable(row,column){
-		if(this.board[row,column]==0){return true}
-		else {return false}
-<<<<<<< HEAD
-		// The same that return this.board[row,column]==0
-=======
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
+		if(this.board[row][column]==0){
+			return true;
+		}
+		else {
+			return false;
+		}
+		// The same that return this.board[row][column]==0
 	}
-	
+	generateTurns(){
+		var num = Math.random(); //random number between 0-1 
+		if (num<=0.5){
+			return 0;
+		}
+		else {
+			return 1;
+		}
+	}
+
+	changeTurn(){
+		if (this.turn == 0){
+			this.turn = 1;
+		} else{
+			this.turn = 0;
+		}
+	}
+
 	checkIfWinner(player){
 		if(
 			(this.board[0][0]== player && this.board[1][0]== player && this.board[2][0]== player) || //1
@@ -74,8 +78,13 @@ class Game{ //modelo
 			(this.board[2][0]== player && this.board[2][1]== player && this.board[2][2]== player) || //6
 			(this.board[0][0]== player && this.board[1][1]== player && this.board[2][2]== player) || //7
 			(this.board[0][2]== player && this.board[1][1]== player && this.board[2][0]== player)    //8
-		  )  { return true}
-		else {return false}
+		  )  
+		{ 
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 /*
 winning combinations:
@@ -94,24 +103,14 @@ how to access to each square:
 
 class View{
 	constructor(){
-<<<<<<< HEAD
 		this.drawTable();
-=======
-
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 	}
 
 	drawTable(){
 		var textTable = '<table id="t" border = "0" cellspacing ="5"> ';
-<<<<<<< HEAD
 		for(let i=0;i<3;i++){
 			textTable += '<tr bgcolor = "#e0893c" height="100px">';
 			for (let j=0;j<3;j++){
-=======
-		for(i=0;i<3;i++){
-			textTable += '<tr bgcolor = "#e0893c" height="100px">';
-			for (j=0;j<3;j++){
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 				textTable += '<td id="'+i+j+'"width="100"></td>';
 			}
 		}
@@ -119,42 +118,82 @@ class View{
 		//return textTable
 		document.getElementById("table").innerHTML = textTable;
 	}
-<<<<<<< HEAD
+	drawTile(row,column, tile){
+		document.getElementById(row.toString()+column.toString()).innerHTML = tile;
+	}
 	getSquare(row,column){
 		return document.getElementById(row.toString()+column.toString());
 	}
 	sendAlert(message){
 		alert(message);
 	}
+	getInfo(message){
+		return prompt(message);
+	}
+	writeNotification(place,message){
+		document.getElementById(place).innerHTML = message;
+	}
 
-=======
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
 } //view
 
 class Controller{
 	constructor(){
-<<<<<<< HEAD
-		this.model = new Game();
+		this.model = new Model();
 		this.view = new View();
 		this.generateListeners();
+		this.start();
 	}
 	generateListeners(){
-		//var that=this;
+		//var that=this; //two ways of doing the same 
 		for (let i=0;i<3;i++){
 			for (let j=0;j<3;j++){
-				this.view.getSquare(i,j).addEventListener("click", () => this.myFunction(i,j))
-
-					//(){that.myFunction(i,j);
-				// () => this.myFunction(i,j);
-
-			//	});
+				this.view.getSquare(i,j).addEventListener("click", () => this.game(i,j))
+					//function (){that.game(i,j);};
 			}
 
 		}
 	}
-	myFunction(i,j){
-		alert("hola"+i+ " "+ j);
+	start(){
+		// all changes necessary to reset the game
+		this.model.board = [[0,0,0],[0,0,0],[0,0,0]];
+		this.model.players[0].movements = 0;
+		this.model.players[1].movements = 0;
+		for (let i=0;i<3;i++){
+			for (let j=0;j<3;j++){
+				this.view.drawTile(i,j,"");
+			}
+		}
+		this.model.turn = this.model.generateTurns();
+		// 
 
+		this.model.players[0].name = this.view.getInfo("Escribe el nombre del Jugador 1");
+		this.model.players[1].name = this.view.getInfo("Escribe el nombre del Jugador 2");
+		this.view.writeNotification("names", "Jugador 1: "+ this.model.players[0].name+ "</br>Jugador 2: "+ this.model.players[1].name);
+		this.view.writeNotification("notifications", "Turno de "+ this.model.players[this.model.turn].name);
+	}
+
+	game(i,j){
+		if (this.model.squareAvailable(i,j)){
+			this.model.board[i][j] = this.model.players[this.model.turn].tile;
+			this.view.drawTile(i,j,this.model.players[this.model.turn].tile);
+			this.model.players[this.model.turn].movements += 1;
+				if (this.model.players[this.model.turn].movements >=3) {
+					if (this.model.checkIfWinner(this.model.players[this.model.turn].tile)){
+						this.view.sendAlert("Ha ganado "+ this.model.players[this.model.turn].name+ ". Comenzará un nuevo juego");
+						this.start();
+					}
+				}
+			if (this.model.players[0].movements + this.model.players[1].movements == 9){
+				this.view.sendAlert("EMPATE. Comenzará un nuevo juego");
+				this.start();
+			}
+			else{
+				this.model.changeTurn();
+				this.view.writeNotification("notifications", "Turno de "+ this.model.players[this.model.turn].name);
+			}
+			
+		}
+		
 	}
 
 } //controller
@@ -165,30 +204,7 @@ class Controller{
 
 
 window.onload = function(){
-	var a = new Controller(); 
+	controller = new Controller(); 
 
 	
 }
-=======
-		this.view = new View();
-		this.model = new Game();
-	}
-} //controller
-
-
-function drawTable(){ //test
-	var textTable = '<table id="t" border = "0" cellspacing ="5"> ';
-	for(i=0;i<3;i++){
-		textTable += '<tr bgcolor = "#e0893c" height="100px">';
-	for (j=0;j<3;j++){
-		textTable += '<td id="'+i+j+'"width="100"></td>';
-	}
-	}
-	textTable += '</tr></table>';
-	//return textTable
-	document.getElementById("table").innerHTML = textTable;
-}
-
-
-window.onload = drawTable;
->>>>>>> 0a2472b9966a3b278b913f42261abcbac732f604
